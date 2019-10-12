@@ -1,7 +1,7 @@
 import https from 'https'
 
 /**
- * @property {string|{history: object[]}} source
+ * @property {string|HistoryResponse} source
  */
 export default class Analytics {
     constructor(source) {
@@ -11,7 +11,7 @@ export default class Analytics {
     /**
      * Get events history.
      *
-     * @returns {Promise<{history: object[]}>}
+     * @returns {Promise<HistoryResponse>}
      */
     async getHistory() {
     }

@@ -9,22 +9,17 @@ pass.
 
 ## Install
 
-### Option 1: GitPod
+Ue any online IDE you want (like [GitPod](https://www.gitpod.io/)).
 
-[Open this repository in GitPod](https://www.gitpod.io/#https://github.com/OVNICap/JavaScriptTest).
-
-### Option 2: local machine
+Or on your locale machine:
 
 Install [Node.js](https://nodejs.org)
 
 Install [Git](https://git-scm.com)
 
-Create a GitHub account if you don't have one and fork this project (top
-right hand corner button).
-
-Clone your fork to work on it on a local machine:
+Clone the project:
 ```shell
-git clone https://github.com/<your-username>/JavaScriptTest
+git clone https://github.com/OVNICap/JavaScriptTest
 cd JavaScriptTest
 ```
 
@@ -47,12 +42,9 @@ and running `npm start`
 
 ## Submit your solution
 
-Create a ZIP or TAR archive with modified files (**src** directory should be enough
-for this test, but you can include **package.json** if you added packages).
+Then [create a pull-request on OVNICap/JavaScriptTest](https://github.com/OVNICap/JavaScriptTest/compare)
 
-On GitPod, you can right-click on the **src** folder and click "Download".
-
-Then send us the archive by mail.
+Travis-CI will run tests, so you can check if everything works fine.
 
 ## Evaluation
 
@@ -60,8 +52,6 @@ You should first try to get outputs of methods as close as possible
 to the values unit test expect.
 
 We will take into consideration:
-- the clarity of your code: variables names, indentation, comments,
-commit messages;
-- the respect of best practices;
+- the clarity of your code: variables names, indentation, comments;
 - the optimization of the code: significant optimizations like caching
 results or reducing number of loops would be appreciated.
