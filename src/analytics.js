@@ -59,5 +59,18 @@ export default class Analytics {
    *
    * @returns {Promise<string[]>}
    */
-  async getClients() {}
+  async getClients() {
+    const data = await this.getHistory();
+    let clients = {};
+    data.history
+      .filter(el => el.action === "buy")
+      .forEach(client => {
+        if (client.details.validated) {
+          if (!clients[client.user]) {
+            clients[client.user] = true;
+          }
+        }
+      });
+    return Object.keys(clients).sort();
+  }
 }
