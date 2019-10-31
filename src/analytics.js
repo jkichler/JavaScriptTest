@@ -44,7 +44,15 @@ export default class Analytics {
    *
    * @returns {Promise<number>}
    */
-  async getTotalPurchasesAmount() {}
+  async getTotalPurchasesAmount() {
+    const data = await this.getHistory();
+    const reducer = (accum, value) => accum + value;
+    let total = data.history
+      .filter(el => el.action === "buy")
+      .filter(el => el.details.validated === true)
+      .map(el => el.details.amount / 100);
+    return Number(Math.round(total.reduce(reducer, 0) + "e1") + "e-1");
+  }
 
   /**
    * Get list of clients who did at least 1 validated purchase.
