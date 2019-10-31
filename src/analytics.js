@@ -73,4 +73,61 @@ export default class Analytics {
       });
     return Object.keys(clients).sort();
   }
+  async getClientStats() {
+    //using object to store date over array as array key check is constant time operation, Trading space for performance
+    let clientStats = {};
+    let data = await this.getHistory();
+    data.history.forEach(client => {
+      if (!clientStats[client.user]) {
+        clientStats[client.user] = {
+          clientName: client.user,
+          stats: { averageCart: 0, buyRate: 0 },
+          count: 0,
+          purchases: 0,
+          total: 0,
+          carts: 0
+        };
+      }
+      clientStats[client.user].count++;
+      if (client.action === "buy") {
+        clientStats[client.user].carts++;
+        if (client.details.validated) {
+          clientStats[client.user].purchases++;
+          clientStats[client.user].total += client.details.amount / 100;
+          clientStats[client.user].stats.averageCart =
+            clientStats[client.user].total / clientStats[client.user].purchases;
+        }
+        clientStats[client.user].stats.buyRate = Number(
+          Math.floor(
+            clientStats[client.user].carts / clientStats[client.user].count +
+              "e1"
+          ) + "e-1"
+        );
+      }
+    });
+    const interableStats = obj => {
+      let statsArray = [];
+      for (let key in obj) {
+        statsArray.push({
+          clientName: obj[key].clientName,
+          stats: obj[key].stats
+        });
+      }
+      let idx = 0;
+      const asyncIterator = {
+        next: () => {
+          if (idx >= statsArray.length) {
+            return Promise.resolve({ done: true });
+          }
+          const value = statsArray[idx++];
+          return Promise.resolve({ value, done: false });
+        }
+      };
+      const asyncIterable = {
+        [Symbol.asyncIterator]: () => asyncIterator
+      };
+      return asyncIterable;
+    };
+    return interableStats(clientStats);
+  }
 }
