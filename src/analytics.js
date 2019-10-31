@@ -13,7 +13,31 @@ export default class Analytics {
    *
    * @returns {Promise<HistoryResponse>}
    */
-  async getHistory() {}
+  async getHistory() {
+    if (typeof this.source === "object") return this.source;
+    const getHistoryPromise = url => {
+      return new Promise((resolve, reject) => {
+        https.get(url, response => {
+          let data = "";
+          response.on("data", chunck => {
+            data += chunck;
+          });
+          response.on("end", () => {
+            resolve(JSON.parse(data));
+          });
+          response.on("error", error => {
+            reject(error);
+          });
+        });
+      });
+    };
+    try {
+      let promise = getHistoryPromise(this.source);
+      return promise;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   /**
    * Get total amount of all validated purchases.
